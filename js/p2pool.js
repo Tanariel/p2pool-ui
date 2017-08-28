@@ -178,7 +178,7 @@ $(document).on('update_miners', function(e, eventInfo) {
         // Estimate daily
         // Formula [seconds] * [block reward] * [hash rate] / (difficulty * 4295032833)
         var daily = 86400 * local_stats.block_value * parseInt(hashrate) / (global_stats.network_block_difficulty * 4295032833);
-        var link = 'https://whattomine.com/coins/5-vtc-lyra2rev2?utf8=Ã¢&hr='+paseInt(hashrate)/1000+'&d_enabled=true&d='+global_stats.network_block_difficulty+'&p=0.0&fee=0.0&cost=0.0&hcost=0.0&commit=Calculate';
+        var link = 'https://whattomine.com/coins/34-dash-x11?utf8=Ã¢&hr='+paseInt(hashrate)/1000000+'&d_enabled=true&d='+global_stats.network_block_difficulty+'&p=0.0&fee=0.0&cost=0.0&hcost=0.0&commit=Calculate';
         tr.append($('<td/>')
             .addClass('text-right')
             .append($('<a/>')
