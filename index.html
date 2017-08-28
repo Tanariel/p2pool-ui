@@ -52,18 +52,8 @@
 
         <div class="container">
             <div id="node_alerts" class="alert alert-danger hidden"></div>
-            <div class="alert alert-info hidden">2013-12-13: This is a message to miners on my node telling them something really cool.</div>
+            <div class="alert alert-info hidden">2017-08-28: This is a message to miners on my node telling them something really cool.</div>
             <div id="header_content"></div>
-
-            <section class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Informasjon</h4>
-                </div>
-                <div class="panel-body">
-                    <p>If you are a smaller miner &#40;&lt;100MH/s&#41; it&#39;s recommended to use the second P2Pool network <a href="http://85.166.90.245:9181">here</a>.</p>
-                    <p><i>Sitter dere p&#229; under 100 MH/s hashrate, vennligst pekk miner deres til port 9181, Vertcoin2 nettverk, <a href="http://85.166.90.245:9181">her</a>.</i></p>
-                </div>
-            </section>
       
             <section class="panel panel-default">
                 <div class="panel-heading">
@@ -219,22 +209,79 @@
         
         <footer class="container">
             <div class="panel panel-default clearfix">
-                <div class="panel-heading">
-                    <p>UI by <a href="https://github.com/justino/p2pool-ui-punchy">justino</a></p>
-                    Please donate if you like this UI:
-                </div>
-                <div class="row center-block">
-                    <ul class="list-group">
-                        <li class="list-group-item col-md-4 col-md-offset-2"><i class="fa fa-btc"></i>: 195ufic8mfNrDqxgFCfmw5mQYwdu2im9G5</li>
-                        <li class="list-group-item col-md-4">DASH: XerSXuygP6PeUoqVRyC2BFFHpUXXkFU8UP</li>
-                    </ul>
-                </div>
-                <div class="row center-block">
-                    <ul class="list-group">
-                        <li class="list-group-item col-md-4 col-md-offset-2">DOGE: DLethX5AdiwkvW28KhJxZBpBV9dr2ask53</li>
-                    </ul>
-                </div>
+            <div class="panel-heading">
+                <h4>Frequently Asked Questions</h4>
             </div>
+            <div style="text-align:left;padding:8px;">
+<b>Q: What is P2Pool?</b><br />
+A: P2Pool is a decentralized mining pool that works by creating a peer-to-peer network of miner nodes making the pool as a whole highly resistant to malicious attacks, and preserving and protecting the decentralized nature of Bitcoin and other Altcoins.<br />
+<br />
+You can find more useful information at <a href="http://p2pool.org" target="_blank">p2pool.org</a>, the <a href="https://en.bitcoin.it/wiki/P2Pool" target="_blank">P2Pool WiKi</a> and <a href="https://bitcointalk.org/index.php?topic=153232.0" target="_blank">Guide for mining efficiently on P2Pool</a>.<br />
+<br />
+<b>Q: How is P2Pool different?</b><br />
+A: P2Pool has it's own sharechain with a fast target speed of 10 seconds per share. This sharechain is used between nodes to distibute the work. Do not confuse the P2Pool sharechain with the coin blockchain. Since the P2Pool sharechain has such a rapid expiration of work you will notice a lot of restart messages to the miner.<br />
+<br />
+It may take some time for smaller miners to obtain a share. This will result in an increase of variance but over time you should experience higher payouts when compared to other pools.<br />
+<br />
+Orphans/DOAs on the P2Pool sharechain are common because of the fast target speed. Do not confuse this with orphaned blocks on the coin blockchain. DOA shares can actually still be valid blocks so do not use --no-submit-stale<br />
+<br />
+<b>Q: How do I tune for P2Pool?</b><br />
+A: P2Pool has very rapid expiration of work. It is suggested you decrease your intensity by 1 from your optimal value and [possibly] set GPU threads to 1. If you have non-p2pool backup pools it is recommended to use --failover-only since the work is effectively like a different block chain. Do not use --no-submit-stale since what cgminer considers stale may be valid with P2Pool.<br />
+<br />
+<b>Q: Why is my Dead rate so high?</b><br />
+A: Dead rate is the amount of shares that were stale or DOA. Very high dead rates can indicate miner misconfiguration. If you are mining on a coin that is not showing the correct date then the share difficulty will be low until it catches up. This will cause the graphs to display higher dead rates. It should be noted that dead shares are still submitted and can solve a block. Do not use --no-submit-stale<br />
+<br />
+<b>Q: Why does my miner report so many longpoll/stratum from pool request work restarts?</b><br />
+A: This is normal. It is how often P2Pool shares are generated.<br />
+<br />
+<b>Q: How do I get paid?</b><br />
+A: P2Pool miners are paid every time a block is found by the pool for any confirmed shares they currently have in the P2Pool sharechain.<br />
+<br />
+This is known as a Pay Per Last N Shares (PPLNS) payout system, and is the mechanism P2Pool uses to both determine payouts and discourage pool hopping. In P2Pool the N in PPLNS is 8,640 for most coins. Each of the last 8,640 shares are paid each time a block is found. A share in the P2Pool sharechain can be expected to last between 1 to 3 days depending on the coin.<br />
+<br />
+Confirmed shares are valid, and paid whenever a block is found, for as long as they remain in the sharechain. Payouts in P2Pool are made immediately, directly from the block generation transaction.<br />
+<br />
+As a miner on P2Pool you are competing with other P2Pool miners for a portion of the 8,640 active shares. The more shares (and the higher the difficulty of those shares) you have in the sharechain, the greater your reward when a block is found.<br />
+<br />
+<b>Q: How does the pool fee work?</b><br />
+A: The fee's on P2Pools are a bit different than other pools. Any fees that a P2Pool has is <a href="http://www.merriam-webster.com/dictionary/probabilistic" target="_blank">probabilistic</a>. In other words if the P2Pool has a 1% fee then 1% of the shares go to the pool not 1% of every share. The pool can have periods of bad luck in relation to the fee and get nothing at all...but it averages out over time.<br />
+<br />
+<b>Q: Why are the stats not updating?</b><br />
+A: Internet Explorer may not display current data after a browser refresh. Please try using Chrome instead.<br />
+<br />
+<b>Q: Can I set my own share difficulty?</b><br />
+A: There are two different difficulty setting you can specify. Share Difficulty and Pseudo Share Difficulty. It is important you understand the difference. Share Difficulty by address is shown in the Miners tab.<br />
+<br />
+<b>Share Difficulty:&nbsp; &nbsp;</b><code>address/&lt;number&gt;</code><br />
+Sets the share difficulty for shares that count towards a payout.<br />
+<br />
+P2Pool takes the total hashrate on each node and assigns a share difficulty for that node based on that number. This means that large miners may increase the share difficulty on a node to a point where smaller miners are working on shares too difficult for their speed.<br />
+<br />
+The maximum a node can raise the share difficulty is 30x the P2Pool share difficulty. To determine the maximum share difficulty find the P2Pool share difficulty displayed on the Stats page and multiply by 30.<br />
+<br />
+The P2Pool share difficulty displayed on the Stats page is the lowest share difficulty that can be assigned to a miner. If you would like to provide your miner with the lowest P2Pool share difficulty use: <tt>address/0</tt><br />
+<br />
+CAUTION: Setting your share difficulty to the lowest P2Pool share difficulty may decrease your per block payout to a point where you may encounter large transacion fees. Try to keep your per block payout above the coins minimum transaction fee as setting your own share difficulty overrides the minimum payout threshold.<br />
+<br />
+<b>Pseudo Share Difficulty:&nbsp; &nbsp;</b><code>address+&lt;number&gt;</code><br />
+Pseudo Share Difficulty is what a P2Pool node sends to your miner to keep it busy waiting for a share that attempts to solve a block and count towards a payout. It does this so you can verify the miner is hashing correctly and make adjustments as necessary. P2Pool nodes also use pseudo shares to populate graphs and hashrate display.<br />
+<br />
+Setting pseudo share difficulty allows you to set the quantity and difficulty of pseudo shares in-between share used to solve blocks. Setting the pseudo share difficulty will help minimize the amount of traffic from your miner to the P2Pool node.<br />
+<br />
+To set the pseudo share difficulty for your specific hash rate multiply by 0.00000116<br />
+For example, if your miner is capable of 1440 Mh/s:<br />
+<br />
+<tt>1440 * 0.00116 = 1.6704</tt><br />
+<br />
+You can set both share and pseudo share diffuculty settings together by using: <code>address/&lt;number&gt;+&lt;number&gt;</code><br />
+<br />
+Example Connection String for a miner choosing the minimum P2Pool share difficulty with 1440 Mh/s:<br /><br />
+<div align="center">
+<code>sgminer --darkcoin-mod --no-extranonce -o stratum+tcp://94.156.218.28:7903 -u Xbon36F261wXDL4p1CEZAX28t8U4ayR9uu<span style="color: red;">/0+1.6704</span> -p x</code><br />
+</div>
+</div>
+</div>
+
         </footer>
         
         <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
