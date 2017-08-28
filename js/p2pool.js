@@ -177,8 +177,18 @@ $(document).on('update_miners', function(e, eventInfo) {
         
         // Estimate daily
         // Formula [seconds] * [block reward] * [hash rate] / (difficulty * 4295032833)
-        // var daily = 86400 * local_stats.block_value * parseInt(hashrate) / (global_stats.network_block_difficulty * 4295032833);
-        // var link = 'https://whattomine.com/coins/34-dash-x11?utf8=Ã¢&hr='+paseInt(hashrate)/1000000+'&d_enabled=true&d='+global_stats.network_block_difficulty+'&p=0.0&fee=0.0&cost=0.0&hcost=0.0&commit=Calculate';
+        var daily = (86400 * local_stats.block_value * parseInt(hashrate) / (global_stats.network_block_difficulty * 4295032833)) || 0;
+       // var link = 'https://whattomine.com/coins/34-dash-x11?utf8=Ã¢&hr='+paseInt(hashrate)/1000000+'&d_enabled=true&d='+global_stats.network_block_difficulty+'&p=0.0&fee=0.0&cost=0.0&hcost=0.0&commit=Calculate';
+        if (daily) {
+            td = $('<td/>').attr('class', 'text-right')
+                .text(parseFloat(daily).toFixed(8))
+                .append(' ').append(currency.clone());
+            tr.append(td);
+        }
+        else {
+            tr.append($('<td/>').attr('class', 'text-right')
+                .append($('<i/>').append('no enough info yet')));
+        }
         // tr.append($('<td/>')
            // .addClass('text-right')
            // .append($('<a/>')
