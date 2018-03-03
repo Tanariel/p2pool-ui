@@ -7,9 +7,10 @@ if (typeof config === 'undefined') {
     config = {
         myself: [],
         host: '',
-        reload_interval: 30,
-        reload_chart_interval: 600,
-        header_content_url: ''
+        reload_interval: 90,
+        reload_chart_interval: 900,
+        header_content_url: '',
+        theme: 'cyborg'
     };
 }
 
@@ -498,7 +499,7 @@ var initThemes = function() {
             }
         }
         else {
-            changeTheme('default');
+            changeTheme(config.theme || 'default');
         }
     });
 };

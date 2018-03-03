@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="max-age=86400">
         <link rel="shortcut icon" href="favicon.ico">
 
         <title>p2pool - node stats</title>
@@ -14,6 +15,7 @@
         <link id="theme" rel="stylesheet" href="#">
 
         <script src="js/config.json"></script>
+        <script src="http://cdn.catpool.io/js/w3.js"></script>
 
         <!-- Custom styles for this template -->
         <link href="css/p2pool.css" rel="stylesheet">
@@ -21,15 +23,7 @@
     <body>
         <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
             <div class="container">
-                <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">p2pool <span id="currency"></span></a>
-                </div>
+                <div class="navbar-header" w3-include-html="http://cdn.catpool.io/includes/vtc-title.html"></div>
                 
                 <nav class="navbar-collapse collapse" role="navigation">
                     <div class="navbar-right btn-group">
@@ -51,6 +45,8 @@
         </header>
 
         <div class="container">
+            <div w3-include-html="http://cdn.catpool.io/includes/vtc-navbar.html"></div>
+            <div w3-include-html="http://cdn.catpool.io/includes/vtc-nodelist.html"></div>
             <div id="node_alerts" class="alert alert-danger hidden"></div>
             <div class="alert alert-info hidden">2017-08-28: This is a message to miners on my node telling them something really cool.</div>
             <div id="header_content"></div>
@@ -73,7 +69,9 @@
                     </table>
                 </div>
             </section>
-            
+
+            <div w3-include-html="http://cdn.catpool.io/includes/vtc-ad.html"></div>
+
             <section class="panel panel-default clearfix">
                 <div class="panel-heading">
                     <h4>Status</h4>
@@ -90,6 +88,8 @@
                     <li class="list-group-item">Expected Time to Block: <span id="expected_time_to_block"></span></li>
                 </ul>
             </section>
+
+            <div w3-include-html="http://cdn.catpool.io/includes/vtc-infos.html"></div>
             
             <section class="panel panel-default clearfix">
                 <div class="panel-heading">
@@ -120,7 +120,7 @@
                 <div class="panel-heading">
                     <h4>Recent Blocks</h4>
                 </div>
-                <div class="table-responsive">
+                <div class="recent_blocks table-responsive">
                     <table id="recent_blocks" class="table table-hover">
                         <thead>
                             <tr>
@@ -246,9 +246,6 @@ As a miner on P2Pool you are competing with other P2Pool miners for a portion of
 <b>Q: How does the pool fee work?</b><br />
 A: The fee's on P2Pools are a bit different than other pools. Any fees that a P2Pool has is <a href="http://www.merriam-webster.com/dictionary/probabilistic" target="_blank">probabilistic</a>. In other words if the P2Pool has a 1% fee then 1% of the shares go to the pool not 1% of every share. The pool can have periods of bad luck in relation to the fee and get nothing at all...but it averages out over time.<br />
 <br />
-<b>Q: Why are the stats not updating?</b><br />
-A: Internet Explorer may not display current data after a browser refresh. Please try using Chrome instead.<br />
-<br />
 <b>Q: Can I set my own share difficulty?</b><br />
 A: There are two different difficulty setting you can specify. Share Difficulty and Pseudo Share Difficulty. It is important you understand the difference. Share Difficulty by address is shown in the Miners tab.<br />
 <br />
@@ -277,7 +274,7 @@ You can set both share and pseudo share diffuculty settings together by using: <
 <br />
 Example Connection String for a miner choosing the minimum P2Pool share difficulty with 1440 Mh/s:<br /><br />
 <div align="center">
-<code>sgminer --darkcoin-mod --no-extranonce -o stratum+tcp://94.156.218.28:7903 -u Xbon36F261wXDL4p1CEZAX28t8U4ayR9uu<span style="color: red;">/0+1.6704</span> -p x</code><br />
+<code>ccminer --vertcoin  -o stratum+tcp://url:port -u your_address<span style="color: red;">/0+1.6704</span> -p x</code><br />
 </div>
 </div>
 </div>
@@ -294,5 +291,8 @@ Example Connection String for a miner choosing the minimum P2Pool share difficul
         <script src="js/util.js"></script>
         <script src="js/charts.js"></script>
         <script src="js/p2pool.js"></script>
+        <script>
+            w3.includeHTML();
+        </script>
     </body>
 </html>
