@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="max-age=86400">
+        <link rel="shortcut icon" href="favicon.ico">
+
+        <title>p2pool - node stats</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" >
+        <link id="theme" rel="stylesheet" href="#">
+
+        <script src="js/config.json"></script>
+        <script src="http://cdn.catpool.io/js/w3.js"></script>
+
+        <!-- Custom styles for this template -->
+        <link href="css/p2pool.css" rel="stylesheet">
+    </head>
+    <body>
+        <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header" w3-include-html="http://cdn.catpool.io/includes/grs-title.html"></div>
+                
+                <nav class="navbar-collapse collapse" role="navigation">
+                    <div class="navbar-right btn-group">
+                        <div class="btn-group">
+                            <button type="button" class="btn navbar-btn btn-info btn-sm hidden-sm hidden-xs" data-toggle="modal" data-target="#hashgraph">Hashrate Graph <span class="caret"></span></button>
+                        </div>
+                        <button type="button" class="btn navbar-btn btn-default btn-sm">Last Block Found: <span id="last_block"></span></button>
+                        <button type="button" class="btn navbar-btn btn-default btn-sm">Last Updated: <span id="updated"></span></button>
+                        <div class="btn-group">
+                            <button type="button" class="btn navbar-btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li data-toggle="modal" data-target="#setminers"><a href="#">Set My Miners</a></li>
+                                <li data-toggle="modal" data-target="#settheme"><a href="#">Change Theme</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container">
+            <div w3-include-html="http://cdn.catpool.io/includes/grs-navbar.html"></div>
+            <div w3-include-html="http://cdn.catpool.io/includes/grs-nodelist.html"></div>
+            <div id="node_alerts" class="alert alert-danger hidden"></div>
+            <div class="alert alert-info hidden">2017-08-28: This is a message to miners on my node telling them something really cool.</div>
+            <div id="header_content"></div>
+      
+            <section class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Active Miners On This Node</h4>
+                </div>
+                <div class="table-responsive">
+                    <table id="active_miners" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Address</th>
+                                <th class="text-right">Hashrate</th>
+                                <th class="text-right">Rejected Hashrate</th>
+                                <th class="text-right">Predicted Payout</th>
+                                <th class="text-right">Daily Payout</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </section>
+
+            <div w3-include-html="http://cdn.catpool.io/includes/grs-ad.html"></div>
+
+            <section class="panel panel-default clearfix">
+                <div class="panel-heading">
+                    <h4>Status</h4>
+                </div>
+                <ul class="list-group status rate_info pull-left">
+                    <li class="list-group-item">Global Pool Hashrate: <span id="global_rate"></span></li>
+                    <li class="list-group-item">Local Pool Hashrate: <span id="local_rate"></span></li>
+                    <li class="list-group-item">Current Block Value: <span id="block_value"></span></li>
+                </ul>
+                <ul class="list-group status share_info pull-right">
+                    <li class="list-group-item">Local Shares: <span id="shares"></span></li>
+                    <li class="list-group-item">Share Difficulty: <span id="share_difficulty"></span></li>
+                    <li class="list-group-item">Expected Time to Share: <span id="expected_time_to_share"></span></li>
+                    <li class="list-group-item">Expected Time to Block: <span id="expected_time_to_block"></span></li>
+                </ul>
+            </section>
+
+            <div w3-include-html="http://cdn.catpool.io/includes/grs-infos.html"></div>
+            
+            <section class="panel panel-default clearfix">
+                <div class="panel-heading">
+                    <h4>Node Information</h4>
+                </div>
+                <ul class="list-group status pull-left">
+                    <li class="list-group-item">
+                        Node Peers:
+                        <span>
+                            <i class="fa fa-sign-in fa-fw" title="Inbound"></i>
+                            <span id="peers_in"></span>
+                            /
+                            <i class="fa fa-sign-out fa-fw" title="Outbound"></i>
+                            <span id="peers_out"></span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">Node p2pool Version: <span id="p2pool_version"></span></li>
+                    <li class="list-group-item">Node Fee: <span id="node_fee"></span></li>
+                </ul>
+                <ul class="list-group status pull-right">
+                    <li class="list-group-item">Node Uptime: <span id="node_uptime"></span></li>
+                    <li class="list-group-item">Protocol Version: <span id="protocol_version"></span></li>
+                    <li class="list-group-item">Node Donation: <span id="node_donation"></span></li>
+                </ul>
+            </section>
+      
+            <section class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Recent Blocks</h4>
+                </div>
+                <div class="recent_blocks table-responsive">
+                    <table id="recent_blocks" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>When</th>
+                                <th>Date/Time</th>
+                                <th>Number</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </section>
+
+            <section id="hashgraph" class="modal fade" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Local Hashrate Graph</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="chart-buttons">
+                                <button id="hour" type="button" class="hashrate btn btn-info">Hour</button>
+                                <button id="day" type="button" class="hashrate btn btn-info">Day</button>
+                                <button id="week" type="button" class="hashrate btn btn-info">Week</button>
+                                <button id="month" type="button" class="hashrate btn btn-info">Month</button>
+                                <button id="year" type="button" class="hashrate btn btn-info">Year</button>
+                            </div>
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="setminers" class="modal fade" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Set My Miners</h4>
+                        </div>
+                        <div class="modal-body clearfix">
+                            <p>Add a list of your miners to highlight on the stats page.</p>
+                            <p>One address per line:</p>
+                            <textarea id="myminers"></textarea>
+                            <input id="onlymyminers" name="onlymyminers" type="checkbox" value="0" />
+                            <label for="onlymyminers">Display only my miners</label>
+                            <button id="setminers" type="button" class="btn btn-primary pull-right" data-dismiss="modal">Set Miners</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="settheme" class="modal fade" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden"true">&times;</button>
+                            <h4 class="modal-title">Set Theme</h4>
+                        </div>
+                        <div class="modal-body clearfix">
+                            <p>Choose a Theme:</p>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active"><a href="#">Default</a></li>
+                                <li><a href="#">Amelia</a></li>
+                                <li><a href="#">Cerulean</a></li>
+                                <li><a href="#">Cosmo</a></li>
+                                <li><a href="#">Cyborg</a></li>
+                                <li><a href="#">Darkly</a></li>
+                                <li><a href="#">Flatly</a></li>
+                                <li><a href="#">Journal</a></li>
+                                <li><a href="#">Lumen</a></li>
+                                <li><a href="#">Readable</a></li>
+                                <li><a href="#">Simplex</a></li>
+                                <li><a href="#">Slate</a></li>
+                                <li><a href="#">Spacelab</a></li>
+                                <li><a href="#">Superhero</a></li>
+                                <li><a href="#">United</a></li>
+                                <li><a href="#">Yeti</a></li>
+                            </ul>
+                            <p class="pull-right">Themes from <a href="http://bootswatch.com/">Bootswatch.com</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="container">
+            <div class="panel panel-default clearfix">
+            <div class="panel-heading">
+                <h4>Frequently Asked Questions</h4>
+            </div>
+            <div style="text-align:left;padding:8px;">
+<b>Q: What is P2Pool?</b><br />
+A: P2Pool is a decentralized mining pool that works by creating a peer-to-peer network of miner nodes making the pool as a whole highly resistant to malicious attacks, and preserving and protecting the decentralized nature of Bitcoin and other Altcoins.<br />
+<br />
+You can find more useful information at <a href="http://p2pool.org" target="_blank">p2pool.org</a>, the <a href="https://en.bitcoin.it/wiki/P2Pool" target="_blank">P2Pool WiKi</a> and <a href="https://bitcointalk.org/index.php?topic=153232.0" target="_blank">Guide for mining efficiently on P2Pool</a>.<br />
+<br />
+<b>Q: How is P2Pool different?</b><br />
+A: P2Pool has it's own sharechain with a fast target speed of 10 seconds per share. This sharechain is used between nodes to distibute the work. Do not confuse the P2Pool sharechain with the coin blockchain. Since the P2Pool sharechain has such a rapid expiration of work you will notice a lot of restart messages to the miner.<br />
+<br />
+It may take some time for smaller miners to obtain a share. This will result in an increase of variance but over time you should experience higher payouts when compared to other pools.<br />
+<br />
+Orphans/DOAs on the P2Pool sharechain are common because of the fast target speed. Do not confuse this with orphaned blocks on the coin blockchain. DOA shares can actually still be valid blocks so do not use --no-submit-stale<br />
+<br />
+<b>Q: How do I tune for P2Pool?</b><br />
+A: P2Pool has very rapid expiration of work. It is suggested you decrease your intensity by 1 from your optimal value and [possibly] set GPU threads to 1. If you have non-p2pool backup pools it is recommended to use --failover-only since the work is effectively like a different block chain. Do not use --no-submit-stale since what cgminer considers stale may be valid with P2Pool.<br />
+<br />
+<b>Q: Why is my Dead rate so high?</b><br />
+A: Dead rate is the amount of shares that were stale or DOA. Very high dead rates can indicate miner misconfiguration. If you are mining on a coin that is not showing the correct date then the share difficulty will be low until it catches up. This will cause the graphs to display higher dead rates. It should be noted that dead shares are still submitted and can solve a block. Do not use --no-submit-stale<br />
+<br />
+<b>Q: Why does my miner report so many longpoll/stratum from pool request work restarts?</b><br />
+A: This is normal. It is how often P2Pool shares are generated.<br />
+<br />
+<b>Q: How do I get paid?</b><br />
+A: P2Pool miners are paid every time a block is found by the pool for any confirmed shares they currently have in the P2Pool sharechain.<br />
+<br />
+This is known as a Pay Per Last N Shares (PPLNS) payout system, and is the mechanism P2Pool uses to both determine payouts and discourage pool hopping. In P2Pool the N in PPLNS is 8,640 for most coins. Each of the last 8,640 shares are paid each time a block is found. A share in the P2Pool sharechain can be expected to last between 1 to 3 days depending on the coin.<br />
+<br />
+Confirmed shares are valid, and paid whenever a block is found, for as long as they remain in the sharechain. Payouts in P2Pool are made immediately, directly from the block generation transaction.<br />
+<br />
+As a miner on P2Pool you are competing with other P2Pool miners for a portion of the 8,640 active shares. The more shares (and the higher the difficulty of those shares) you have in the sharechain, the greater your reward when a block is found.<br />
+<br />
+<b>Q: How does the pool fee work?</b><br />
+A: The fee's on P2Pools are a bit different than other pools. Any fees that a P2Pool has is <a href="http://www.merriam-webster.com/dictionary/probabilistic" target="_blank">probabilistic</a>. In other words if the P2Pool has a 1% fee then 1% of the shares go to the pool not 1% of every share. The pool can have periods of bad luck in relation to the fee and get nothing at all...but it averages out over time.<br />
+<br />
+<b>Q: Can I set my own share difficulty?</b><br />
+A: There are two different difficulty setting you can specify. Share Difficulty and Pseudo Share Difficulty. It is important you understand the difference. Share Difficulty by address is shown in the Miners tab.<br />
+<br />
+<b>Share Difficulty:&nbsp; &nbsp;</b><code>address/&lt;number&gt;</code><br />
+Sets the share difficulty for shares that count towards a payout.<br />
+<br />
+P2Pool takes the total hashrate on each node and assigns a share difficulty for that node based on that number. This means that large miners may increase the share difficulty on a node to a point where smaller miners are working on shares too difficult for their speed.<br />
+<br />
+The maximum a node can raise the share difficulty is 30x the P2Pool share difficulty. To determine the maximum share difficulty find the P2Pool share difficulty displayed on the Stats page and multiply by 30.<br />
+<br />
+The P2Pool share difficulty displayed on the Stats page is the lowest share difficulty that can be assigned to a miner. If you would like to provide your miner with the lowest P2Pool share difficulty use: <tt>address/0</tt><br />
+<br />
+CAUTION: Setting your share difficulty to the lowest P2Pool share difficulty may decrease your per block payout to a point where you may encounter large transacion fees. Try to keep your per block payout above the coins minimum transaction fee as setting your own share difficulty overrides the minimum payout threshold.<br />
+<br />
+<b>Pseudo Share Difficulty:&nbsp; &nbsp;</b><code>address+&lt;number&gt;</code><br />
+Pseudo Share Difficulty is what a P2Pool node sends to your miner to keep it busy waiting for a share that attempts to solve a block and count towards a payout. It does this so you can verify the miner is hashing correctly and make adjustments as necessary. P2Pool nodes also use pseudo shares to populate graphs and hashrate display.<br />
+<br />
+Setting pseudo share difficulty allows you to set the quantity and difficulty of pseudo shares in-between share used to solve blocks. Setting the pseudo share difficulty will help minimize the amount of traffic from your miner to the P2Pool node.<br />
+<br />
+To set the pseudo share difficulty for your specific hash rate multiply by 0.00000116<br />
+For example, if your miner is capable of 1440 Mh/s:<br />
+<br />
+<tt>1440 * 0.00116 = 1.6704</tt><br />
+<br />
+You can set both share and pseudo share diffuculty settings together by using: <code>address/&lt;number&gt;+&lt;number&gt;</code><br />
+<br />
+Example Connection String for a miner choosing the minimum P2Pool share difficulty with 1440 Mh/s:<br /><br />
+<div align="center">
+<code>ccminer --vertcoin  -o stratum+tcp://url:port -u your_address<span style="color: red;">/0+1.6704</span> -p x</code><br />
+</div>
+</div>
+</div>
+
+        </footer>
+        
+        <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="js/jquery-dateFormat.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        
+        <script src="js/highcharts.js"></script>
+        <script src="js/exporting.js"></script>
+        
+        <script src="js/util.js"></script>
+        <script src="js/charts.js"></script>
+        <script src="js/p2pool.js"></script>
+        <script>
+            w3.includeHTML();
+        </script>
+    </body>
+</html>
